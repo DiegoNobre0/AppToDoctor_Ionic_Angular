@@ -13,8 +13,8 @@ import {
 export class MedService {
 
   // REST_API: string = 'https://doctor-api.azurewebsites.net/api';
-// REST_API: string = 'https://doctors-api.azurewebsites.net/api';
-REST_API: string = 'https://localhost:7044/api';
+REST_API: string = 'https://doctors-api.azurewebsites.net/api';
+// REST_API: string = 'https://localhost:7044/api';
 
 httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 constructor(private httpClient: HttpClient) {}
@@ -27,7 +27,6 @@ Add(data: any): Observable<any> {
 }
 
 GetAll() {
-  debugger
   return this.httpClient.get(`${this.REST_API}/Medicamentos`);
 }
 
