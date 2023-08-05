@@ -1,0 +1,96 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>AppDoctor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">TESTE</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div *ngFor="let med of meds" lines="none" (click)="getListMed(med)">
+    <ion-card [color]="med.color">
+      <ion-card-header>
+        <ion-card-title class="title-size">{{med.name}}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </div>
+  
+  <!-- <ion-card color="primary" routerLink="/meds">
+    <ion-card-header>
+      <ion-card-title class="title-size">ANTIBIÓTICOS</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card color="secondary">
+    <ion-card-header>
+      <ion-card-title class="title-size">ANTI-CONVULSIVANTES</ion-card-title> 
+    </ion-card-header>
+  </ion-card>
+  
+  <ion-card color="tertiary">
+    <ion-card-header>
+      <ion-card-title class="title-size">ANTI-INFLAMATÓRIOS</ion-card-title>      
+    </ion-card-header>
+  </ion-card>
+  
+  <ion-card color="success">
+    <ion-card-header>
+      <ion-card-title class="title-size">ANTI-FÚNGICOS</ion-card-title>     
+    </ion-card-header>
+  </ion-card>
+  
+  <ion-card color="warning">
+    <ion-card-header>
+      <ion-card-title class="title-size">ANTI-HISTAMÍNICOS</ion-card-title>      
+    </ion-card-header>
+  </ion-card>
+  
+  <ion-card color="danger">
+    <ion-card-header>
+      <ion-card-title class="title-size">ANTI-PARASITÁRIOS</ion-card-title>      
+    </ion-card-header> 
+  </ion-card>
+  
+  <ion-card color="medium">
+    <ion-card-header>
+      <ion-card-title class="title-size">BRONCODILATADORES</ion-card-title>     
+    </ion-card-header>    
+  </ion-card>
+  
+  <ion-card color="dark">
+    <ion-card-header>
+      <ion-card-title class="title-size">CORTICOSTERÓIDES</ion-card-title>      
+    </ion-card-header> 
+  </ion-card>
+
+  <ion-card color="primary">
+    <ion-card-header>
+      <ion-card-title class="title-size">LAXATIVOS</ion-card-title>
+    </ion-card-header>   
+  </ion-card>
+  
+  <ion-card color="secondary">
+    <ion-card-header>
+      <ion-card-title class="title-size">SINTOMÁTICOS</ion-card-title> 
+    </ion-card-header>
+  </ion-card>
+  
+  <ion-card color="tertiary">
+    <ion-card-header>
+      <ion-card-title class="title-size">HIDRATAÇÃO VENOSA</ion-card-title>      
+    </ion-card-header>
+  </ion-card>
+  
+  <ion-card color="success">
+    <ion-card-header>
+      <ion-card-title class="title-size">OUTROS MEDICAMENTOS</ion-card-title>     
+    </ion-card-header>
+  </ion-card> -->
+</ion-content>
+
