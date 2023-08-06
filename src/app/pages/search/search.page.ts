@@ -1,111 +1,155 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MedService } from 'src/app/service/med.service';
 
 @Component({
-  selector: 'app-meds',
-  templateUrl: './meds.page.html',
-  styleUrls: ['./meds.page.scss'],
+  selector: 'app-search',
+  templateUrl: './search.page.html',
+  styleUrls: ['./search.page.scss'],
 })
-export class MedsPage implements OnInit {
-  meds: any;
+export class SearchPage implements OnInit {
   backgroundColor: any;
-  typeMed: any;
-  constructor(   
+  meds:any;
+  termoPesquisa: string = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    private medService: MedService,
     protected router: Router,
-    private route: ActivatedRoute
-    ) {}
+  ) { 
+    this.backgroundColor = this.route.snapshot.paramMap.get('backgroundColorSearch');
+  }
 
   ngOnInit() {
-    const dados : any = this.route.snapshot.paramMap.get('med');
-    this.meds = JSON.parse(decodeURIComponent(dados));
-    this.backgroundColor = this.route.snapshot.paramMap.get('backgroundColor');
-    this.typeMed = this.route.snapshot.paramMap.get('type');
-    console.log(this.meds)
+    this.medService.GetAll().subscribe((response: any) => {
+      this.meds = response;
+    });
+  }
+
+  filtrarMedicacoes(): any[] {
+    if (this.termoPesquisa.trim() === '') {
+      return this.meds;
+    } else {
+      return this.meds.filter((med: any) => {
+        return med.nome.toLowerCase().includes(this.termoPesquisa.toLowerCase());
+      });
+    }
+  }
+
+  getTipoMedicamentoClass(tipo: any) {  
+    switch (tipo) {
+      case 'Antibiótico':
+        return 'tipo-Antibiotico';
+      case 'Anti-Convulsivante':
+        return 'tipo-Convulsivante';
+      case 'Anti-Inflamatório':
+        return 'tipo-Inflamatorio';
+      case 'Anti-Fúngico':
+        return 'tipo-Fungico';
+      case 'Anti-Histamínico':
+        return 'tipo-Histaminico';
+      case 'Anti-Parasitário':
+        return 'tipo-Parasitario';
+      case 'Broncodilatadores':
+          return 'tipo-Broncodilatadores';
+      case 'Corticosteróide':
+          return 'tipo-Corticosteroide';
+      case 'Laxativo':
+          return 'tipo-Laxativo';
+      case 'Sintomático':
+        return 'tipo-Sintomatico';
+      case 'Hidratação Venosa':
+        return 'tipo-Hidratacao';
+      case 'Outros':
+        return 'tipo-Outros';
+      default:
+        return '';
+    }
   }
 
 
   getMed(getData: any) {      
     if(getData.tipo === "Antibiótico"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'primary';
       let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Antibióticos';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);     
     }
 
     if(getData.tipo === "Anti-Convulsivante"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'secondary';
       let dados = encodeURIComponent(JSON.stringify(getData))
       let type = 'Anti-Convulsivantes';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
 
     if(getData.tipo === "Anti-Inflamatório"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'tertiary';
       let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Anti-Inflamatórios';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
 
     if(getData.tipo === "Anti-Fúngico"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'success';
       let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Anti-Fúngicos';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
 
     if(getData.tipo === "Anti-Histaminico"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'warning';
       let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Anti-Histaminico';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
 
     if(getData.tipo === "Anti-Parasitario"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'danger';
       let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Anti-Parasitarios';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
 
     if(getData.tipo === "Broncodilatadores"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'medium';
       let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Broncodilatadores';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
 
     if(getData.tipo === "Corticosteroide"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'dark';
       let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Corticosteroides';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
 
     if(getData.tipo === "Laxativo"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'primary';;
       let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Laxativos';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
 
     if(getData.tipo === "Sintomatico"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'secondary';
       let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Sintomaticos';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
 
     if(getData.tipo === "Hidratação Venosa"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'tertiary';
       let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Hidratação Venosa';
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
 
     if(getData.tipo === "Outros"){
-      let backgroundColor = this.backgroundColor;
+      let backgroundColor = 'success';
+      let dados = encodeURIComponent(JSON.stringify(getData));
       let type = 'Outros Medicamentos';
-      let dados = encodeURIComponent(JSON.stringify(getData))
       this.router.navigate(['/calculator', dados, backgroundColor,type]);
     }
   }
@@ -113,4 +157,5 @@ export class MedsPage implements OnInit {
   back(){
     history.back()
   }
+
 }

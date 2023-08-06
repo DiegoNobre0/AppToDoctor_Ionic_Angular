@@ -8,23 +8,23 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
-    <ion-header collapse="condense" style="background-color: brown;">
-      <ion-toolbar >
-        <ion-title style="text-align: center;" size="large" >{{typeMed}}</ion-title>
-      </ion-toolbar>
-      <ion-breadcrumbs style="display: flex; justify-content: center;">
-        <ion-breadcrumb href="#home">Inicio</ion-breadcrumb>
-        <ion-breadcrumb href="#electronics">{{typeMed}}</ion-breadcrumb>
-      </ion-breadcrumbs>
-    </ion-header>
-    <ion-card>
+    <ion-item [color]="backgroundColor">
+      <ion-label>
+        <h1 style="text-align: center;font-size: 30px;"><b>{{typeMed}}</b></h1>
+        <ion-breadcrumbs color="light" style="display: flex; justify-content: center;" >
+          <ion-breadcrumb (click)="back()">Inicio</ion-breadcrumb>          
+          <ion-breadcrumb >{{typeMed}}</ion-breadcrumb>
+        </ion-breadcrumbs>
+      </ion-label>
+    </ion-item>
+   
+    <ion-card *ngIf="meds">
       <ion-list>
         <ion-item *ngFor="let med of meds" (click)="getMed(med)">
           <ion-icon name="chevron-forward-outline"></ion-icon>
           <ion-label>{{med.nome}}</ion-label>
         </ion-item>
       </ion-list>
-    </ion-card>
+    </ion-card> 
 </ion-content>
 

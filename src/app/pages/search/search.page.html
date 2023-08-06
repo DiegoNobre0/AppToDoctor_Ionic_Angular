@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>AppDoctor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-item [color]="backgroundColor">
+      <ion-label>
+        <h1 style="text-align: center;font-size: 30px;"><b>Pesquisar</b></h1>
+        <ion-breadcrumbs color="light" style="display: flex; justify-content: center;" >
+          <ion-breadcrumb (click)="back()">Inicio</ion-breadcrumb>          
+          <ion-breadcrumb >Pesquisar</ion-breadcrumb>
+        </ion-breadcrumbs>
+      </ion-label>
+    </ion-item>
+
+   <ion-card>
+    <ion-item>
+      <ion-input label="Pesquisar" labelPlacement="stacked" type="search" placeholder="Digite o Nome do Medicamento" [(ngModel)]="termoPesquisa"></ion-input>
+      <ion-icon name="search-outline" [color]="backgroundColor"></ion-icon>
+    </ion-item>
+   </ion-card>
+    <ion-card >
+      <ion-list>
+        <ion-item *ngFor="let med of filtrarMedicacoes()" (click)="getMed(med)">
+          <ion-icon [ngClass]="getTipoMedicamentoClass(med.tipo)" name="chevron-forward-outline"></ion-icon>
+          <ion-label [ngClass]="getTipoMedicamentoClass(med.tipo)">{{med.nome}}</ion-label>
+          <ion-label style="font-size: 12px;"> {{'em ' + med.tipo}}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card> 
+</ion-content>

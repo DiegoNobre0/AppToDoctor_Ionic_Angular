@@ -8,25 +8,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large" style="text-align: center;">Calculadora</ion-title>
-    </ion-toolbar>
-    <ion-breadcrumbs style="display: flex; justify-content: center;">
-      <ion-breadcrumb href="#home">Inicio</ion-breadcrumb>
-      <ion-breadcrumb href="#electronics">{{tipo}}</ion-breadcrumb>
-      <ion-breadcrumb href="#electronics">{{item.nome}}</ion-breadcrumb>
-    </ion-breadcrumbs>
-  </ion-header>
+
+  <ion-item [color]="backgroundColor">
+    <ion-label>
+      <h1 style="text-align: center;font-size: 30px;"><b>Calculadora</b></h1>
+      <ion-breadcrumbs color="light" style="display: flex; justify-content: center;" >
+        <ion-breadcrumb (click)="back()">Inicio</ion-breadcrumb>
+        <ion-breadcrumb (click)="back()">{{tipo}}</ion-breadcrumb>
+        <ion-breadcrumb >{{item.nome}}</ion-breadcrumb>
+      </ion-breadcrumbs>
+    </ion-label>
+  </ion-item>
 
   <ion-card>
     <ion-card-header>   
       <ion-card-subtitle>Apresentação Disponivel</ion-card-subtitle>
     </ion-card-header>
     <ion-list>
-      <ion-item *ngFor="let dados of dadosMedicamentos">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-        <ion-label>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml'}}</ion-label>
+      <ion-item *ngFor="let dados of dadosMedicamentos">        
+        <ion-label>
+          <ion-icon slot="start" name="chevron-forward-outline"></ion-icon>
+          {{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml'}}
+        </ion-label>
       </ion-item>
     </ion-list>
   </ion-card>
@@ -35,12 +38,234 @@
     <ion-card-header>   
       <ion-card-subtitle>Calculo Medicamento</ion-card-subtitle>
     </ion-card-header>
-    <ion-list>
-      <ion-item *ngFor="let dados of dadosMedicamentos">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-        <ion-label>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml'}}</ion-label>
-      </ion-item>
-    </ion-list>
+
+    <!-- Calcular os medicamentos em mg/kg/dia e reverso-->
+    <div *ngIf="item.dosagemTipo === 'mg/kg/dia'">
+      <ion-segment (ionChange)="mgKgChanged($event)" value="mg/kg/dia">
+        <ion-segment-button value="mg/kg/dia">
+          <ion-label>
+            mg/kg/dia
+          </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="mg/kg">
+          <ion-label>
+            mg/kg
+          </ion-label>
+        </ion-segment-button>
+      </ion-segment>
+      
+      <div *ngIf="mgKgDia === 'mg/kg/dia'">
+        <ion-card>
+          <ion-item>
+            <ion-input label="Peso(Kg)" labelPlacement="stacked" type="number" placeholder="Digite o Peso" [(ngModel)]="peso" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Dosagem(mg/kg)" labelPlacement="stacked" type="number" placeholder="Digite a Dosagem" [(ngModel)]="dosagemMgKg" [step]="0.01"></ion-input>
+          </ion-item>
+        </ion-card>
+        <ion-button style="padding: 0.5rem;" [color]="backgroundColor" fill="outline" (click)="calculoMgKg()">
+          <ion-icon slot="start" name="calculator-outline"></ion-icon>
+          Calcular
+        </ion-button>
+        <div *ngIf="resultadoMgKg">
+          <ion-item detail="false" *ngFor="let dados of resultadoMgKg">
+            <ion-label class="ion-text-wrap">
+              <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
+              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+            </ion-label>
+          </ion-item>
+        </div>
+      </div>
+     
+      <div *ngIf="mgKgDia === 'mg/kg'">
+        <ion-card>
+          <ion-item>
+            <ion-input label="Peso(Kg)" labelPlacement="stacked" type="number" placeholder="Digite o Peso" [(ngModel)]="peso" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Volume(ml)" labelPlacement="stacked" type="number" placeholder="Digite o Volume" [(ngModel)]="volume" [step]="0.01"></ion-input>
+          </ion-item>
+        </ion-card>
+        <ion-button [color]="backgroundColor" style="padding: 0.5rem;" fill="outline" (click)="calculoMgKgReverso()">
+          <ion-icon slot="start" name="calculator-outline"></ion-icon>
+          Calcular
+        </ion-button>
+        <div *ngIf="resultadoMgKgReverso">
+          <ion-item detail="false" *ngFor="let dados of resultadoMgKgReverso">
+            <ion-label class="ion-text-wrap">
+              <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
+              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+            </ion-label>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+
+   <!-- Calcular os medicamentos em mcg/kg/dia e o calculo reverso-->
+     <div *ngIf="item.dosagemTipo === 'mcg/kg/min'">
+      <ion-segment (ionChange)="mcgKgminChanged($event)" value="mcg/kg/min">
+        <ion-segment-button value="mcg/kg/min">
+          <ion-label>
+            mcg/kg/min
+          </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="ml/h">
+          <ion-label>
+            ml/h
+          </ion-label>
+        </ion-segment-button>
+      </ion-segment>
+      
+      <div *ngIf="mcgKgMin === 'mcg/kg/min'">
+        <ion-card>
+          <ion-item>
+            <ion-input label="Peso(Kg)" labelPlacement="stacked" type="number" placeholder="Digite o Peso" [(ngModel)]="peso" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Dose a ser administrada(mcg/kg/min)" labelPlacement="stacked" type="number" placeholder="Digite a Dosagem" [(ngModel)]="doseCalculo" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Medicamento(mg)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade(ml)" [(ngModel)]="medicamentoMg" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Medicamento(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade(mg)" [(ngModel)]="medicamentoMl" [step]="0.01" (input)="calculoSolucaoTotal()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Quantidade de soro(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade de Soro(ml)" [(ngModel)]="soroGlicosado" [step]="0.01" (input)="calculoSolucaoTotal()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Solução total(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade da Solução Total(ml)" [(ngModel)]="solucaoTotal" [step]="0.01" (input)="calculoSoroGlicosado()"></ion-input>
+          </ion-item>
+        </ion-card>
+        <ion-button [color]="backgroundColor" style="padding: 0.5rem;" fill="outline" (click)="calculoMcgKg()">
+          <ion-icon  slot="start" name="calculator-outline"></ion-icon>
+          Calcular
+        </ion-button>
+        <div *ngIf="resultadoMcgKg">
+          <ion-item detail="false" *ngFor="let dados of resultadoMcgKg">
+            <ion-label class="ion-text-wrap">
+              <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
+              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+            </ion-label>
+          </ion-item>
+        </div>
+      </div>
+      
+      <div *ngIf="mcgKgMin === 'ml/h'">
+        <ion-card>
+          <ion-item>
+            <ion-input label="Peso(Kg)" labelPlacement="stacked" type="number" placeholder="Digite o Peso" [(ngModel)]="peso" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Vazão(ml/h)" labelPlacement="stacked" type="number" placeholder="Digite o Volume" [(ngModel)]="vazao" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Medicamento(mg)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade(ml)" [(ngModel)]="medicamentoMgReverso" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Medicamento(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade(mg)" [(ngModel)]="medicamentoMlReverso" [step]="0.01" (input)="calculoSolucaoTotalReverso()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Quantidade de soro(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade de Soro(ml)" [(ngModel)]="soroGlicosadoReverso" [step]="0.01" (input)="calculoSolucaoTotalReverso()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Solução total(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade da Solução Total(ml)" [(ngModel)]="solucaoTotalReverso" [step]="0.01" (input)="calculoSoroGlicosadoReverso()"></ion-input>
+          </ion-item>
+        </ion-card>
+        <ion-button [color]="backgroundColor" style="padding: 0.5rem;" fill="outline" (click)="calculoMcgKgReverso()">
+          <ion-icon  slot="start" name="calculator-outline"></ion-icon>
+          Calcular
+        </ion-button>
+        <div *ngIf="resultadoMcgKgReverso">
+          <ion-item detail="false" *ngFor="let dados of resultadoMcgKgReverso">
+            <ion-label class="ion-text-wrap">
+              <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
+              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+            </ion-label>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+
+     <!-- Calcular os medicamentos em mcg/min e o calculo reverso-->
+    <div *ngIf="item.dosagemTipo === 'mcg/min'">
+      <ion-segment (ionChange)="mcgMinChanged($event)" value="mcg/min">
+        <ion-segment-button value="mcg/min">
+          <ion-label>
+            mcg/kg/min
+          </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="ml/h">
+          <ion-label>
+            ml/h
+          </ion-label>
+        </ion-segment-button>
+      </ion-segment>
+      
+      <div *ngIf="mcgMin === 'mcg/min'">
+        <ion-card>       
+          <ion-item>
+            <ion-input label="Dose a ser administrada(mcg/kg/min)" labelPlacement="stacked" type="number" placeholder="Digite a Dosagem" [(ngModel)]="doseCalculo" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Medicamento(mg)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade(ml)" [(ngModel)]="medicamentoMg" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Medicamento(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade(mg)" [(ngModel)]="medicamentoMl" [step]="0.01" (input)="calculoSolucaoTotal()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Quantidade de soro(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade de Soro(ml)" [(ngModel)]="soroGlicosado" [step]="0.01" (input)="calculoSolucaoTotal()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Solução total(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade da Solução Total(ml)" [(ngModel)]="solucaoTotal" [step]="0.01" (input)="calculoSoroGlicosado()"></ion-input>
+          </ion-item>
+        </ion-card>
+        <ion-button [color]="backgroundColor" style="padding: 0.5rem;" fill="outline" (click)="calculoMcgMin()">
+          <ion-icon  slot="start" name="calculator-outline"></ion-icon>
+          Calcular
+        </ion-button>
+        <div *ngIf="resultadoMcgMin">
+          <ion-item detail="false" *ngFor="let dados of resultadoMcgMin">
+            <ion-label class="ion-text-wrap">
+              <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
+              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+            </ion-label>
+          </ion-item>
+        </div>
+      </div>
+      
+      <div *ngIf="mcgMin === 'ml/h'">
+        <ion-card>         
+          <ion-item>
+            <ion-input label="Vazão(ml/h)" labelPlacement="stacked" type="number" placeholder="Digite o Volume" [(ngModel)]="vazao" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Medicamento(mg)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade(ml)" [(ngModel)]="medicamentoMgReverso" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Medicamento(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade(mg)" [(ngModel)]="medicamentoMlReverso" [step]="0.01" (input)="calculoSolucaoTotalReverso()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Quantidade de soro(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade de Soro(ml)" [(ngModel)]="soroGlicosadoReverso" [step]="0.01" (input)="calculoSolucaoTotalReverso()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Solução total(ml)" labelPlacement="stacked" type="number" placeholder="Digite a Quantidade da Solução Total(ml)" [(ngModel)]="solucaoTotalReverso" [step]="0.01" (input)="calculoSoroGlicosadoReverso()"></ion-input>
+          </ion-item>
+        </ion-card>
+        <ion-button [color]="backgroundColor" style="padding: 0.5rem;" fill="outline" (click)="calculoMcgMinReverso()">
+          <ion-icon  slot="start" name="calculator-outline"></ion-icon>
+          Calcular
+        </ion-button>
+        <div *ngIf="resultadoMcgMinReverso">
+          <ion-item detail="false" *ngFor="let dados of resultadoMcgMinReverso">
+            <ion-label class="ion-text-wrap">
+              <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
+              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+            </ion-label>
+          </ion-item>
+        </div>
+      </div>
+    </div>
   </ion-card>
 
   <ion-card>
@@ -49,8 +274,10 @@
     </ion-card-header>
     <ion-list>
       <ion-item *ngFor="let dados of indicacoes">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-        <ion-label>{{dados}}</ion-label>
+        <ion-label>
+          <ion-icon slot="start" name="chevron-forward-outline"></ion-icon>
+          {{dados}}
+        </ion-label>
       </ion-item>
     </ion-list>
   </ion-card>
@@ -61,8 +288,8 @@
     </ion-card-header>
     <ion-list >
       <ion-item *ngFor="let dados of dosagem">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
         <ion-label class="ion-text-wrap">
+          <ion-icon slot="start" name="chevron-forward-outline"></ion-icon>
           {{dados.problema}}
         </ion-label><br>
         <ion-label *ngIf="dados.usoDose.usoInicial != '' " class="ion-text-wrap">
@@ -81,8 +308,11 @@
     </ion-card-header>
     <ion-list>
       <ion-item *ngFor="let dados of preparoDiluicao">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-        <ion-label class="ion-text-wrap">{{dados}}</ion-label>
+        
+        <ion-label class="ion-text-wrap">
+          <ion-icon slot="start" name="chevron-forward-outline"></ion-icon>
+          {{dados}}
+        </ion-label>
       </ion-item>
     </ion-list>
   </ion-card>
@@ -92,9 +322,11 @@
       <ion-card-subtitle>Administração</ion-card-subtitle>
     </ion-card-header>
     <ion-list>
-      <ion-item *ngFor="let dados of administracao">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-        <ion-label class="ion-text-wrap">{{dados}}</ion-label>
+      <ion-item *ngFor="let dados of administracao">        
+        <ion-label class="ion-text-wrap">
+          <ion-icon slot="start" name="chevron-forward-outline"></ion-icon>
+          {{dados}}
+        </ion-label>
       </ion-item>
     </ion-list>
   </ion-card>
@@ -105,8 +337,10 @@
     </ion-card-header>
     <ion-list>
       <ion-item *ngFor="let dados of contraIndicacoes">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-        <ion-label class="ion-text-wrap">{{dados}}</ion-label>
+        <ion-label class="ion-text-wrap">
+          <ion-icon slot="start" name="chevron-forward-outline"></ion-icon>
+          {{dados}}
+        </ion-label>
       </ion-item>
     </ion-list>
   </ion-card>
@@ -117,8 +351,10 @@
     </ion-card-header>
     <ion-list>
       <ion-item *ngFor="let dados of usoGestacao">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-        <ion-label class="ion-text-wrap">{{dados}}</ion-label>
+        <ion-label class="ion-text-wrap">
+          <ion-icon slot="start" name="chevron-forward-outline"></ion-icon>
+          {{dados}}
+        </ion-label>
       </ion-item>
     </ion-list>
   </ion-card>

@@ -46,7 +46,9 @@ export class CalculatorPage implements OnInit {
     const dados : any = this.route.snapshot.paramMap.get('medCalculate');
     this.item = JSON.parse(decodeURIComponent(dados));
     this.backgroundColor = this.route.snapshot.paramMap.get('backgroundColorCalculate');
-    this.tipo = this.route.snapshot.paramMap.get('typeCalculate');  
+    this.tipo = this.route.snapshot.paramMap.get('typeCalculate');
+    this.soroGlicosado = this.item.quantidadeSoro;
+    this.soroGlicosadoReverso = this.item.quantidadeSoro;  
    }
 
   ngOnInit() {  
@@ -136,7 +138,7 @@ export class CalculatorPage implements OnInit {
     }  
   }
 
-  calculoMcgKgReverso(){  
+  calculoMcgKgReverso(){      
     var qntMg = this.medicamentoMgReverso[0] || this.medicamentoMgReverso
     var qntMl = this.medicamentoMlReverso[0] || this.medicamentoMlReverso
     for (let i = 0; i < this.dadosMedicamentos.length; i++) {
@@ -165,19 +167,39 @@ export class CalculatorPage implements OnInit {
   }
 
   calculoSolucaoTotal(){    
-   this.solucaoTotal = this.soroGlicosado + parseFloat(this.medicamentoMl);
+    this.solucaoTotal = this.soroGlicosado + parseFloat(this.medicamentoMl);
   }
 
-  calculoSoroGlicosado() {    
+  calculoSoroGlicosado() {  
     this.soroGlicosado = this.solucaoTotal - parseFloat(this.medicamentoMl);
   }
 
   calculoSolucaoTotalReverso(){    
-    this.solucaoTotalReverso = this.soroGlicosadoReverso + parseFloat(this.medicamentoMlReverso);
+      this.solucaoTotalReverso = this.soroGlicosadoReverso + parseFloat(this.medicamentoMlReverso);
    }
 
    calculoSoroGlicosadoReverso() {    
-    this.soroGlicosadoReverso = this.solucaoTotalReverso - parseFloat(this.medicamentoMlReverso);
+      this.soroGlicosadoReverso = this.solucaoTotalReverso - parseFloat(this.medicamentoMlReverso);
   }
 
+
+  public mgKgDia: string = 'mg/kg/dia';
+  public mcgKgMin: string = 'mcg/kg/min';
+  public mcgMin: string = 'mcg/min';
+
+  
+  
+  mgKgChanged(ev: any) {
+    this.mgKgDia = ev.detail.value;
+  }
+  mcgKgminChanged(ev: any) {
+    this.mcgKgMin = ev.detail.value;
+  }
+  mcgMinChanged(ev: any) {
+    this.mcgMin = ev.detail.value;
+  }
+
+  back(){
+    history.back()
+  }
 }

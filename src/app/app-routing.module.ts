@@ -23,6 +23,19 @@ const routes: Routes = [
     path: 'calculator/:medCalculate/:backgroundColorCalculate/:typeCalculate',
     loadChildren: () => import('./pages/calculator/calculator.module').then( m => m.CalculatorPageModule)
   },
+  {
+    path: 'search/:backgroundColorSearch',
+    loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
+  },  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'adm',
+    loadChildren: () => import('./pages/adm/adm.module').then( m => m.AdmPageModule)
+  },
+
+
 
 ];
 

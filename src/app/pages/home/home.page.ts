@@ -18,13 +18,15 @@ export class HomePage implements OnInit {
   ngOnInit() {    
     this.medService.GetAll().subscribe((response: any) => {
       this.medicacoes = response;
-      console.log(this.medicacoes)
-      // this.medicacoes = response.filter(function(medicacao : any) { return medicacao.medicamentoUso == "Adulto" && medicacao.tipo == "Anti-Convulsivante"});
-    
-  });
+    });
   }
 
-  getListMed(getDados: any) {      
+  getListMed(getDados: any) {     
+    if(getDados.name === "TODOS OS MEDICAMENTOS"){
+      let backgroundColor = 'danger'; 
+      this.router.navigate(['/search', backgroundColor]);
+    }
+    
     if(getDados.name === "ANTIBIÓTICOS"){
       let backgroundColor = 'primary';
       let med = this.getMedFilter('Antibiótico')
@@ -114,7 +116,7 @@ export class HomePage implements OnInit {
     }
 
     if(getDados.name === "OUTROS MEDICAMENTOS"){
-      let backgroundColor = 'success';
+      let backgroundColor = 'danger';
       let med = this.getMedFilter('Outros')
       let dados = encodeURIComponent(JSON.stringify(med))
       let type = 'Outros Medicamentos';
@@ -123,18 +125,19 @@ export class HomePage implements OnInit {
   }
 
   public meds = [
+    { name: 'TODOS OS MEDICAMENTOS', color: 'danger', icon: 'home' },
     { name: 'ANTIBIÓTICOS', color: 'primary', icon: 'home' },
     { name: 'ANTI-CONVULSIVANTES', color: 'secondary', icon: 'home' },
     { name: 'ANTI-INFLAMATÓRIOS', color: 'tertiary', icon: 'home' },
     { name: 'ANTI-FÚNGICOS', color: 'success', icon: 'home' },
     { name: 'ANTI-HISTAMÍNICOS', color: 'warning', icon: 'home' },
     { name: 'ANTI-PARASITÁRIOS', color: 'danger', icon: 'home' },
-    { name: 'BRONCODILATADORES', color: 'medium', icon: 'home' },
-    { name: 'CORTICOSTERÓIDES', color: 'dark', icon: 'home' },
-    { name: 'LAXATIVOS', color: 'primary', icon: 'home' },
-    { name: 'SINTOMÁTICOS', color: 'secondary', icon: 'home' },
-    { name: 'HIDRATAÇÃO VENOSA', color: 'tertiary', icon: 'home' },
-    { name: 'OUTROS MEDICAMENTOS', color: 'success', icon: 'home' }   
+    { name: 'BRONCODILATADORES', color: 'primary', icon: 'home' },
+    { name: 'CORTICOSTERÓIDES', color: 'secondary', icon: 'home' },
+    { name: 'LAXATIVOS', color: 'tertiary', icon: 'home' },
+    { name: 'SINTOMÁTICOS', color: 'success', icon: 'home' },
+    { name: 'HIDRATAÇÃO VENOSA', color: 'warning', icon: 'home' },
+    { name: 'OUTROS MEDICAMENTOS', color: 'danger', icon: 'home' }   
   ];
 
   getMedFilter(name: string){   
