@@ -77,4 +77,12 @@ export class AdmPage implements OnInit {
     }
   }
 
+
+  isColored: boolean = false;
+
+  toggleColor() {
+    debugger
+    this.isColored = !this.isColored;
+  }
+
 }

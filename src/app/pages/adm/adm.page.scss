@@ -4,8 +4,13 @@
     height: 200px;
     .img{
       position: absolute;
+      
     }
-  }
+  }   
+
+  .coloring-image-container img {
+    position: absolute;
+  }   
   
   .coloring-image {
     max-width: 100%;
@@ -23,4 +28,116 @@
     margin: 0 5px;
     cursor: pointer;
   }
-  
+
+
+  .tronco-frente{
+    width: 65.3px;
+    top: 54px;
+    left: 60.4px;
+    height: 96px;
+  }
+
+  .cabeça-frente{
+    width: 38px;
+    top: -1px;
+    left: 74.4px;
+  }
+
+  .pescoço-frente{
+    width: 56px;
+    top: 44.4px;
+    left: 66.3px;
+    height: 12px;
+  }
+
+  .biceps-direito-frente{
+    width: 33px;
+    top: 57px;
+    left: 124.5px;
+    height: 56px;
+  }
+
+  .biceps-esquerdo-frente{
+    width: 31px;
+    top: 57px;
+    left: 28.5px;
+    height: 56px;
+  }
+
+  .antebraco-direito-frente{
+    width: 42px;
+    top: 112px;
+    left: 129.5px;
+    height: 47px;
+  }
+
+  .antebraco-esquerdo-frente{
+    width: 41.7px;
+    top: 112px;
+    left: 14px;
+    height: 45px;
+  }
+
+  .mao-direito-frente{
+    width: 34px;
+    top: 156px;
+    left: 153.4px;
+    height: 41px;
+  }
+
+  .mao-esquerda-frente{
+    width: 34px;
+    top: 156px;
+    left: 0.4px;
+    height: 41px;
+  }
+
+  .genitalia-frente{
+    width: 71.5px;
+    top: 149px;
+    left: 56.4px;
+    height: 29px;
+  }
+
+  .quadricipes-direito-frente{
+    width: 39.5px;
+    top: 177px;
+    left: 92.4px;
+    height: 77px;
+  }
+
+  .quadricipes-esquerdo-frente{
+    width: 39.5px;
+    top: 177px;
+    left: 53.4px;
+    height: 77px;
+  }
+
+  .panturilha-direito-frente{
+    width: 25.6px;
+    top: 253px;
+    left: 100.4px;
+    height: 64px;
+  }
+
+  .panturilha-esquerdo-frente{
+    width: 25.5px;
+    top: 252px;
+    left: 60.4px;
+    height: 64px;
+  }
+
+
+  .pe-direito-frente{
+    width: 27.6px;
+    top: 316px;
+    left: 105.4px;
+    height: 34px;
+  }
+
+  .pe-esquerdo-frente{
+    width: 28.6px;
+    top: 315px;
+    left: 52.4px;
+    height: 35px;
+  }
