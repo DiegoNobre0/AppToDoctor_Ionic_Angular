@@ -1,0 +1,26 @@
+.coloring-image-container {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    .img{
+      position: absolute;
+    }
+  }
+  
+  .coloring-image {
+    max-width: 100%;
+  }
+  
+  .color-palette {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .color {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
