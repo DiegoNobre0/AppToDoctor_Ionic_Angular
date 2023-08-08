@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-adm',
-  templateUrl: './adm.page.html',
-  styleUrls: ['./adm.page.scss'],
+  selector: 'app-calculator-body',
+  templateUrl: './calculator-body.page.html',
+  styleUrls: ['./calculator-body.page.scss'],
 })
-export class AdmPage implements OnInit {
+export class CalculatorBodyPage implements OnInit {
 
   constructor() { }
 
@@ -38,5 +38,6 @@ export class AdmPage implements OnInit {
     debugger
     this.isColored = !this.isColored;
   }
+
 
 }

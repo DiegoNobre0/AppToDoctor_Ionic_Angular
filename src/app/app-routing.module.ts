@@ -34,6 +34,10 @@ const routes: Routes = [
     path: 'adm',
     loadChildren: () => import('./pages/adm/adm.module').then( m => m.AdmPageModule)
   },
+  {
+    path: 'calculator-body',
+    loadChildren: () => import('./pages/calculator-body/calculator-body.module').then( m => m.CalculatorBodyPageModule)
+  },
 
 
 
