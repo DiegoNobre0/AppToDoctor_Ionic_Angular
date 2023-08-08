@@ -56,8 +56,38 @@
       
       <div *ngIf="mgKgDia === 'mg/kg/dia'">
         <ion-card>
+          <ion-card>
+            <ion-label [color]="backgroundColor" style="display: flex; justify-content: center;">Há disfunção renal?</ion-label>
+            <ion-segment (ionChange)="calculoRenalChanged($event)" value="não">
+              <ion-segment-button value="não">
+                <ion-label>Não</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="sim">
+                <ion-label>Sim</ion-label>
+              </ion-segment-button>
+            </ion-segment>  
+          </ion-card>
+
+          <ion-card *ngIf="disfuncaoRenal === 'sim'">
+            <ion-label [color]="backgroundColor" style="display: flex; justify-content: center;">Qual o seu gênero?</ion-label>
+            <ion-segment (ionChange)="generoChanged($event)" value="masculino">
+              <ion-segment-button value="masculino">
+                <ion-label>Masculino</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="feminino">
+                <ion-label>Feminino</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-card>
+
+          <ion-item *ngIf="disfuncaoRenal === 'sim'">
+            <ion-input label="Idade" labelPlacement="stacked" type="number" placeholder="Digite sua Idade" [(ngModel)]="idade"></ion-input>
+          </ion-item>
           <ion-item>
             <ion-input label="Peso(Kg)" labelPlacement="stacked" type="number" placeholder="Digite o Peso" [(ngModel)]="peso" [step]="0.01"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="disfuncaoRenal === 'sim'">
+            <ion-input label="Creatina(mg/dl)" labelPlacement="stacked" type="number" placeholder="Digite a Dosagem" [(ngModel)]="creatina" [step]="0.01"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label="Dosagem(mg/kg)" labelPlacement="stacked" type="number" placeholder="Digite a Dosagem" [(ngModel)]="dosagemMgKg" [step]="0.01"></ion-input>
@@ -68,11 +98,27 @@
           Calcular
         </ion-button>
         <div *ngIf="resultadoMgKg">
-          <ion-item detail="false" *ngFor="let dados of resultadoMgKg">
-            <ion-label class="ion-text-wrap">
-              <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
-              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
-            </ion-label>
+          <ion-item detail="false" *ngFor="let dados of resultadoMgKg" >
+            <div>
+              <div style="padding-bottom: 1rem;">
+                <ion-label class="ion-text-wrap">
+                  <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
+                  <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+                </ion-label>
+              </div>
+              <div  style="padding-bottom: 1rem;">
+                <ion-label *ngIf="clearanceCreatinina >= 10 && clearanceCreatinina < 50" class="ion-text-wrap">
+                  <h3>{{'CLCr 10 - 50 ml/min:'}}</h3>
+                  <p>{{dados.resultado + ' ml a cada 48h' }}</p>
+                </ion-label>
+                <ion-label *ngIf="clearanceCreatinina < 10" class="ion-text-wrap">
+                  <h3>{{'CLCr < 10 ml/min:'}}</h3>
+                  <p>{{dados.resultado + ' ml a cada 72h' }}</p>
+                  <p>{{'Hemodiálise: Dialisável (~20%)'}}</p>
+                  <p>{{'Diálise intermitente: Administrar após hemodiálise:' + (dosagemMgKg /2)+ 'mg/kg a cada 48 horas'}}</p>
+                </ion-label>
+              </div>
+            </div>
           </ion-item>
         </div>
       </div>
@@ -94,7 +140,7 @@
           <ion-item detail="false" *ngFor="let dados of resultadoMgKgReverso">
             <ion-label class="ion-text-wrap">
               <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
-              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+              <p>{{dados.resultado + ' mg/Kg - ' + item.modoDeUso}}</p>
             </ion-label>
           </ion-item>
         </div>
@@ -145,7 +191,7 @@
           <ion-item detail="false" *ngFor="let dados of resultadoMcgKg">
             <ion-label class="ion-text-wrap">
               <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
-              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+              <p>{{dados.resultado + ' ml/h - ' + item.modoDeUso}}</p>
             </ion-label>
           </ion-item>
         </div>
@@ -180,7 +226,7 @@
           <ion-item detail="false" *ngFor="let dados of resultadoMcgKgReverso">
             <ion-label class="ion-text-wrap">
               <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
-              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+              <p>{{dados.resultado + ' mcg/kg/min - ' + item.modoDeUso}}</p>
             </ion-label>
           </ion-item>
         </div>
@@ -228,7 +274,7 @@
           <ion-item detail="false" *ngFor="let dados of resultadoMcgMin">
             <ion-label class="ion-text-wrap">
               <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
-              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+              <p>{{dados.resultado + ' ml/h - ' + item.modoDeUso}}</p>
             </ion-label>
           </ion-item>
         </div>
@@ -260,7 +306,7 @@
           <ion-item detail="false" *ngFor="let dados of resultadoMcgMinReverso">
             <ion-label class="ion-text-wrap">
               <h3>{{item.nome + ' ' + dados.quantidadeMg + 'mg/' + dados.quantidadeMl + 'ml :'}}</h3>
-              <p>{{dados.resultado + ' ml - ' + item.modoDeUso}}</p>
+              <p>{{dados.resultado + ' mcg/min - ' + item.modoDeUso}}</p>
             </ion-label>
           </ion-item>
         </div>

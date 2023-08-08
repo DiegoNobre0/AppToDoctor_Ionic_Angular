@@ -39,6 +39,15 @@ export class CalculatorPage implements OnInit {
   administracao: any;
   usoGestacao: any;
   dosagemMgKg: any;
+  idade: any;
+  clearanceCreatinina: any;
+  creatina: any;
+
+  public mgKgDia: string = 'mg/kg/dia';
+  public mcgKgMin: string = 'mcg/kg/min';
+  public mcgMin: string = 'mcg/min';
+  public disfuncaoRenal: string = 'não';
+  public genero: string = 'masculino';
 
   constructor(
     private route: ActivatedRoute
@@ -85,7 +94,11 @@ export class CalculatorPage implements OnInit {
     }   
   }
 
-  calculoMgKg(){     
+  calculoMgKg(){   
+    if(this.disfuncaoRenal === 'sim'){
+      this.calculoClearanceCreatinina()
+    }
+    
     for (let i = 0; i < this.dadosMedicamentos.length; i++) {
       const resultado = (this.peso * this.dosagemMgKg* this.dadosMedicamentos[i].quantidadeMl) / (this.dadosMedicamentos[i].quantidadeMg * this.item.numeroDoses);
       const key = `${i}`;
@@ -183,12 +196,19 @@ export class CalculatorPage implements OnInit {
   }
 
 
-  public mgKgDia: string = 'mg/kg/dia';
-  public mcgKgMin: string = 'mcg/kg/min';
-  public mcgMin: string = 'mcg/min';
+  calculoClearanceCreatinina(){
+    let fatorCorrecao;
 
-  
-  
+    if(this.genero === 'masculino'){
+      fatorCorrecao = 1;
+      this.clearanceCreatinina = (((140 - this.idade) * this.peso) / (72 * this.creatina)) * fatorCorrecao;
+    }else{
+      fatorCorrecao = 0.85;
+      this.clearanceCreatinina = (((140 - this.idade) * this.peso) / (72 * this.creatina)) * fatorCorrecao;
+    }
+    console.log(this.clearanceCreatinina)
+  } 
+
   mgKgChanged(ev: any) {
     this.mgKgDia = ev.detail.value;
   }
@@ -197,6 +217,14 @@ export class CalculatorPage implements OnInit {
   }
   mcgMinChanged(ev: any) {
     this.mcgMin = ev.detail.value;
+  }
+
+  calculoRenalChanged(ev: any){
+    this.disfuncaoRenal = ev.detail.value;
+  }
+
+  generoChanged(ev: any){
+    this.genero = ev.detail.value;
   }
 
   back(){
