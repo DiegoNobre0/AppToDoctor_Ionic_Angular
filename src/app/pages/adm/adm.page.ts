@@ -19,7 +19,7 @@ export class AdmPage implements OnInit {
 
     if (imagem) {
       this.isTransparent = !this.isTransparent;
-      imagem.style.opacity = this.isTransparent ? '0.3' : '1'; // Define a opacidade para 50% ou 100%
+      imagem.style.opacity = this.isTransparent ? '0.3' : '1'; 
     } else {
       console.log('Imagem não encontrada.');
     }
