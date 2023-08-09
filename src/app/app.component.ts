@@ -9,7 +9,7 @@ export class AppComponent {
     { title: 'Inicio', url: '/home', icon: 'home' },
     { title: 'Regra dos Nove', url: '/calculator-body', icon: 'heart' },
     { title: 'Login', url: '/login', icon: 'paper-plane' },
-    { title: 'Contato', url: '/adm', icon: 'heart' },
+    { title: 'Contato', url: '/folder/Contato', icon: 'heart' },
     { title: 'Sobre', url: '/folder/Sobre', icon: 'archive' }  
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
