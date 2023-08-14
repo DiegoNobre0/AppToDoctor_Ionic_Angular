@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'br.com.appdoctor',
-  appName: 'AppDoctorsMobile',
+  appId: 'br.com.vitalease',
+  appName: 'VitalEaseMobile',
   webDir: 'www',
   server: {
     androidScheme: 'https'

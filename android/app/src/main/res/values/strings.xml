@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">AppDoctorsMobile</string>
-    <string name="title_activity_main">AppDoctorsMobile</string>
-    <string name="package_name">br.com.appdoctor</string>
-    <string name="custom_url_scheme">br.com.appdoctor</string>
+    <string name="app_name">VitalEaseMobile</string>
+    <string name="title_activity_main">VitalEaseMobile</string>
+    <string name="package_name">br.com.vitalease</string>
+    <string name="custom_url_scheme">br.com.vitalease</string>
 </resources>

@@ -1,4 +1,4 @@
-package br.com.appdoctor;
+package br.com.vitalease;
 
 import com.getcapacitor.BridgeActivity;
 

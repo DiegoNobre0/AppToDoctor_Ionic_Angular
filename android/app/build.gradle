@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "br.com.appdoctor"
+    namespace "br.com.vitalease"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "br.com.appdoctor"
+        applicationId "br.com.vitalease"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
