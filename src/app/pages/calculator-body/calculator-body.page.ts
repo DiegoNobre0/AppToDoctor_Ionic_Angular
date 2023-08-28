@@ -15,6 +15,8 @@ export class CalculatorBodyPage implements OnInit {
   isTransparent: boolean = false;
   isColored: boolean = false;
   totalValue = 0; 
+  peso: any;
+  formParkland: any;
 
   toggleImageDisplay(imageId: string, imageValue: number) {
     const imagem = document.getElementById(imageId);
@@ -37,6 +39,10 @@ export class CalculatorBodyPage implements OnInit {
   toggleColor() {
     debugger
     this.isColored = !this.isColored;
+  }
+
+  calculateBody(){
+    this.formParkland = this.totalValue * this.peso * 4;
   }
 
 

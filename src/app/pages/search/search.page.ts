@@ -11,6 +11,7 @@ export class SearchPage implements OnInit {
   backgroundColor: any;
   meds:any;
   termoPesquisa: string = '';
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -21,8 +22,15 @@ export class SearchPage implements OnInit {
   }
 
   ngOnInit() {
+    const tipoAtendimento = localStorage.getItem("tipoAtendimento")
+
     this.medService.GetAll().subscribe((response: any) => {
-      this.meds = response;
+      if(tipoAtendimento === "Adulto"){
+        this.meds = response.filter(function(medicacao : any) { return medicacao.medicamentoUso == "Adulto"});
+      }
+      if(tipoAtendimento === "Pediatrico"){
+        this.meds = response.filter(function(medicacao : any) { return medicacao.medicamentoUso == "Pediátrico"});
+      }  
     });
   }
 
@@ -157,5 +165,4 @@ export class SearchPage implements OnInit {
   back(){
     history.back()
   }
-
 }

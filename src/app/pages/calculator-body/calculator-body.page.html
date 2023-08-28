@@ -63,10 +63,22 @@
   </div>
   <div style="padding-top: 2rem;
   display: flex;
-  justify-content: center;">
+  justify-content: center;
+  flex-direction: column;">
   <ion-card>
     <ion-label style="font-size: 19px; color: tomato;">Área do corpo queimada : {{totalValue}}%</ion-label>
   </ion-card>
+  <ion-card>
+    <ion-input label="Peso(Kg)" labelPlacement="stacked" type="number" placeholder="Digite o Peso" [(ngModel)]="peso" [step]="0.01"></ion-input>  
+    <ion-button style="padding: 0.5rem; color: tomato;"  fill="outline" (click)="calculateBody()">
+      <ion-icon slot="start" name="calculator-outline"></ion-icon>
+      Calcular
+    </ion-button>
+  </ion-card>
+  <ion-card>    
+    <ion-label style="font-size: 19px; color: tomato;">Hidratação inicial : {{formParkland}}ml</ion-label>
+  </ion-card>
+
   </div>
    
    

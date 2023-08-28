@@ -141,10 +141,17 @@ export class HomePage implements OnInit {
   ];
 
   getMedFilter(name: string){   
+    debugger
    var medList; 
-   medList = this.medicacoes.filter(function(medicacao : any) {
-     return  medicacao.tipo === name
-    });
+   const tipoAtendimento = localStorage.getItem("tipoAtendimento");
+
+    if(tipoAtendimento === "Adulto"){
+      medList = this.medicacoes.filter(function(medicacao : any) { return medicacao.medicamentoUso == "Adulto" && medicacao.tipo === name});
+    }
+    if(tipoAtendimento === "Pediatrico"){
+      medList = this.medicacoes.filter(function(medicacao : any) { return medicacao.medicamentoUso == "Pediátrico" && medicacao.tipo === name});
+    }
+
     return medList;
   }
 }

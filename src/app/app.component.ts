@@ -5,6 +5,9 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  atendimento: string = 'Adulto';
+  teste: string = ''
+
   public appPages = [
     { title: 'Inicio', url: '/home', icon: 'home' },
     { title: 'Regra dos Nove', url: '/calculator-body', icon: 'body' },
@@ -12,7 +15,17 @@ export class AppComponent {
     // { title: 'Contato', url: '/folder/Contato', icon: 'heart' },
     // { title: 'Sobre', url: '/folder/Sobre', icon: 'archive' }  
   ];
-  // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  
   constructor() {}
  
+
+  tipoAtendimento(tipoAtendimento: string){
+    if(tipoAtendimento == "Adulto"){
+      localStorage.setItem("tipoAtendimento", "Adulto");
+      this.atendimento = "Adulto"
+    }else{
+      localStorage.setItem("tipoAtendimento", "Pediatrico");
+      this.atendimento = "Pediatrico"
+    }
+  }
 }
